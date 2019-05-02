@@ -1,6 +1,8 @@
 # TriviaGame
 A trivia game using jQuery and JavaScript timers. UofM Bootcamp assignment #5.
 
+This project utilizes image files from external source: Sea and Sky - Fair Use: Educational/Not for Profit use
+
 #Advanced Assignment: https://youtu.be/xhmmiRmxQ8Q
 Create a trivia game that shows a question that shows only one question until the player answers it or time runs out (That's what a trivia game is after all)
 Upon success:
