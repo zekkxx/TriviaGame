@@ -47,13 +47,15 @@ class Game{
     applyAnswers(){
         for(var i=1; i<=4; i++){
             var buttonString = '<button class="triviaAnswer">';
-            var temporaryIndex = Math.floor(Math.random*constellationArray.length);
+            var temporaryIndex = Math.floor(Math.random()*constellationArray.length);
             console.log(constellationArray[temporaryIndex]);
             buttonString+=constellationArray[temporaryIndex];
             buttonString +='</button>';
             console.log(buttonString);
             $("#answersDiv").append(buttonString);
         }//I decided to stop programming inside of the class at this point in time.
+        //No more than 15 minutes later, I found that my issues had been not calling Math.random()
+        //In line 50 I was using Math.random without the function call.
     }
 
     checkResponse(event){
