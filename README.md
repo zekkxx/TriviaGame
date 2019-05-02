@@ -17,3 +17,5 @@ Minamalistic design, meaning no header although providing a footer is good for t
 In addition, questionDiv will serve as both the location where the Questions are asked, as well as the Final Screen Correct/Incorrect display.
 timerDiv serves as the timer, the Time is Up dsplay, and will also have the Restart Button on the final screen.
 answersDiv serves as the location for the four different answers. Upon a good click, it will turn green, with the wrong answer it will turn red, and the correct answer will be highlighted in gold.
+
+Originally I attempted to utilize a class in order to make a Game object that could hold all of my functions and information. Due to the constraints of data perpetuation and the seeming complexity of making buttons work with the object and make all data fit together nicely, I gave up on this approach and began to utilize myGame as an object instead, and approached the project differently.
