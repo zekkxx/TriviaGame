@@ -10,10 +10,7 @@ function startNewGame(){
     myGame.correctAnswers = 0;
     myGame.wrongAnswers = 0;
     myGame.askedQuestionIndex = " ";
-    for(var i=0; i<10; i++){
-        getNewQuestion();
-    }
-    
+    getNewQuestion();
 }
 
 function getNewQuestion(){
@@ -30,8 +27,25 @@ function getNewQuestion(){
     myGame.currentAnswer = constellationArray[index];
     myGame.askedQuestionIndex+=index+", ";
     console.log(myGame.askedQuestionIndex);
-    console.log(myGame.currentAnswer);
+    updatePage();
 }
 
-startNewGame();
-console.log(myGame);
+function updatePage(){
+    console.log("Updating Page: "+myGame.currentAnswer);
+    $("#questionDiv").html("<h1>Name the following constellation:</h1><img src='assets/images/"+myGame.currentAnswer+".jpg'>");
+    createTimer();
+    createAnswers();
+}
+
+function createTimer(){
+    console.log("timer");
+}
+
+function createAnswers(){
+    console.log("answers");
+}
+
+$(function(){
+    startNewGame();
+    console.log(myGame);
+})
