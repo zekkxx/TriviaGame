@@ -63,6 +63,7 @@ function decreaseAnswerTime(){
         setTimeout(checkGameState, 5000);
         myGame.wrongAnswers++;
         illuminateRightAnswer();
+        myGame.isReadyToMoveOn = false;
     }
 }
 
