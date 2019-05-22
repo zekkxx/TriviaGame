@@ -44,3 +44,35 @@ a:hover{
 button{
     margin: 5px;
 }
+.imgContainer{
+    width: auto;
+    position: relative;
+    text-align: center;
+    background-clip: white;
+    margin: 5px;
+}
+.resultsImg{
+    height: 200px;
+    max-width: 100%;
+}
+.imgText{
+    position: absolute;
+    width: 100%;
+    color: black;
+    transform: translate(-100%, 0%);
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.answer{
+    background-color: gold;
+    top: 10%;
+}
+.response{
+    bottom: 10%;
+}
+#resultsDiv{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    text-align: center;
+}

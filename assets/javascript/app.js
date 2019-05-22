@@ -3,9 +3,10 @@ var timerInterval;
 var myGame = new Object(); /*Has the following fields: {
     correctAnswers, //The number of correct answers out of 10 questions
     wrongAnswers, //The number of incorrect answers out of 10 questions
-    askedQuestionIndex, //The indexes of asked questions
-    answerIndex //The index of the current question
-    timeRemaining //Remaining time for the timer
+    askedQuestionArray, //The indexes of asked questions
+    givenAnswersArray, //the indexes of the player's guesses
+    answerIndex, //The index of the current question
+    timeRemaining, //Remaining time for the timer
 }*/
 
 function applyStartScreen(){ //Creates start screen
@@ -18,25 +19,24 @@ function applyStartScreen(){ //Creates start screen
 function startNewGame(){ //Sets game variables to new game stats
     myGame.correctAnswers = 0;
     myGame.wrongAnswers = 0;
-    myGame.askedQuestionIndex = " "; //Use a space here, for reasons why see getNewQuestion or ReadMe
+    myGame.askedQuestionArray = []; //Make blank question array
+    myGame.givenAnswerArray = []; //Make blank response array
+    myGame.gameLength = 10; //Set game length
     getNewQuestion();
 }
 
 function getNewQuestion(){
     var newQuestion = false;
     while(newQuestion!=true){ //If answer index returns an answer already used, run again
-        myGame.answerIndex = Math.floor(Math.random()*constellationArray.length);
-        //Because search returns true for 11 when searching for 1:
-        if(myGame.askedQuestionIndex.search(" "+myGame.answerIndex+",")==-1){ //Force exact number between space and comma elements
+        myGame.answerIndex = Math.floor(Math.random()*constellationArray.length); //get random number
+        if(myGame.askedQuestionArray.indexOf(myGame.answerIndex)==-1){ //if random number hasn't been used yet
             newQuestion=true;
             //console.log("New Question Asked")
         } else {
             //console.log("Oops, we've already asked this question. Try again.");
         }
     }
-    //Because askedQuestionIndex begins with " "
-    myGame.askedQuestionIndex+=myGame.answerIndex+", "; //add new Question index with " " and "," identifiers written in
-    //console.log(myGame.askedQuestionIndex); //A console log for string of questions asked so far
+    myGame.askedQuestionArray.push(myGame.answerIndex); //add new Question index to array
     updatePage();
 }
 
@@ -58,21 +58,18 @@ function decreaseAnswerTime(){ //Decrease time and check for lose conditions
     $("#timerDiv").html("<span>"+myGame.timeRemaining+"</span>");
     if(myGame.timeRemaining<=0){ //If time is up
         myGame.timeRemaining = 0;
-        $("#timerDiv").html("<h1>Time is Up! Please wait 5 seconds</h1>");
-        clearInterval(timerInterval);
-        setTimeout(checkGameState, 5000); //Check game state (end game conditions) after 5 seconds
-            //TAs did not like this method. 5 seconds is too long? Possible mutation point
-        myGame.wrongAnswers++;
+        resetQuestionInteractivity();
+        $("#timerDiv").html("<h1>Time is Up! Please wait a moment</h1>");
         illuminateRightAnswer();
-        myGame.isReadyToMoveOn = false; //Set button.clickable condition to false
+        myGame.givenAnswerArray.push(null); //push a null response for later checks to response array
+        myGame.wrongAnswers++;
     }
 }
 
 function createAnswers(){ //Create random answer buttons available
     $("#answersDiv").empty();
     let answerUsed = false;
-    //Because search returns true for 11 when searching for 1:
-    let answerIndexString = " "+myGame.answerIndex+", "; //create new answer Index string to compare new answers to.
+    let answerIndexArray = [myGame.answerIndex]; //create new answer Index string to compare new answers to.
     for(var i = 0; i<4; i++){ //Loop to run 4 times
         let answerButton = $("<button>"); //create new button
         if(answerUsed!=true && Math.floor(Math.random()*(4-i))==0){ //Formula to ensure that the true answer is used randomly, see ReadMe
@@ -84,9 +81,9 @@ function createAnswers(){ //Create random answer buttons available
             var index; //This is a temporary index value
             while(newAnswer!=true){ //If index returns a previously used answer, run again
                 index = Math.floor(Math.random()*constellationArray.length); //Get random index
-                if(answerIndexString.search(" "+index+",")==-1){ //Force exact number between space and comma elements
+                if(answerIndexArray.indexOf(index)==-1){ //if index value not used already
+                    answerIndexArray.push(index); //add index value to list of values not to be used again for this question
                     newAnswer = true;
-                    answerIndexString += index+", "; //add new Question index with " " and "," identifiers written in
                 } else {
                     //console.log("Oops, we've already used this answer!");
                 }
@@ -96,32 +93,33 @@ function createAnswers(){ //Create random answer buttons available
         }
         answerButton.attr("class", "answerButton"); //Apply class of answerButton to button
         $("#answersDiv").append(answerButton); //Place button in AnswersDiv
-        //console.log(answerButton);
     }
-    myGame.isReadyToMoveOn = true; //Set button.clickable condition to true
-    //console.log(answerIndexString);
 }
 
 function checkResponse(event){ //Check if answer is right or wrong
-    if(myGame.isReadyToMoveOn){
-        myGame.isReadyToMoveOn = false; //Set button.clickable condition to false
-        clearInterval(timerInterval);
-        setTimeout(checkGameState, 5000); //Check game conditions after 5 seconds
-        if(event.target.id == myGame.answerIndex){ //If the button clicked has an ID value equal to the current answer's index
-            myGame.correctAnswers++;
-            $(event.target).attr("style", "background-color: green");
-            $("#timerDiv").html("<h2>Correct Answer! Please wait 5 seconds</h2>");
-        } else { //If the button clicked does not have an ID value equal to the current answer's index
-            myGame.wrongAnswers++;
-            $(event.target).attr("style", "background-color: red");
-            $("#timerDiv").html("<h2>Wrong Answer! Please wait 5 seconds</h2>");
-            illuminateRightAnswer();
-        }
+    resetQuestionInteractivity();
+    if(event.target.id == myGame.answerIndex){ //If the button clicked has an ID value equal to the current answer's index
+        $(event.target).attr("style", "background-color: green");
+        $("#timerDiv").html("<h2>Correct Answer! Please wait a moment</h2>");
+        myGame.correctAnswers++;
+    } else { //If the button clicked does not have an ID value equal to the current answer's index
+        $(event.target).attr("style", "background-color: red");
+        illuminateRightAnswer();
+        $("#timerDiv").html("<h2>Wrong Answer! Please wait a moment</h2>");
+        myGame.wrongAnswers++;
     }
+    myGame.givenAnswerArray.push(event.target.id); //push response into array of responses
+}
+
+function resetQuestionInteractivity(){
+    $(".answerButton").attr("disabled", true); //disable answer buttons
+    clearInterval(timerInterval);
+    setTimeout(checkGameState, 3000); //Check game conditions after 3 seconds
+        //TAs did not like this method. 5 seconds is too long? Possible mutation point
 }
 
 function checkGameState(){ //Check that the game is continuing or over
-    if(myGame.wrongAnswers + myGame.correctAnswers >= 10){ //If 10 questions have been asked
+    if(myGame.askedQuestionArray.length >= myGame.gameLength){ //If 10 questions have been asked
         finishGame();
     } else {
         getNewQuestion();
@@ -137,11 +135,71 @@ function finishGame(){ //Creates end game screen
         +"<h1>&</h1>"+"<h1>You got "+myGame.wrongAnswers+" questions wrong!</h1>");
     $("#timerDiv").html('<button id="startButton">Restart Game!</button>') //Reskin of the start button
     $("#startButton").on("click", startNewGame);
-    $("#answersDiv").empty();
+    showAnswerKey();
 }
 
-$(function(){
+function showAnswerKey(){ //a function which creates a reviewable answer key
+    $("#answersDiv").empty();
+    let resultsContainer = $("<div>");
+    resultsContainer.attr("id", "resultsDiv");
+    for(var i=0; i<myGame.gameLength; i++){ //for the number of questions asked
+        let imgContainer = makeImgContainer(i); //make a new result image
+        resultsContainer.append(imgContainer); //append result to resultsDiv
+    }
+    $("#answersDiv").append(resultsContainer);
+}
+
+function makeImgContainer(index){ //makes new result image
+    var container = $("<div>"); //create image container
+    container.attr("class", "imgContainer");
+    let answerImg = makeAnswerImg(index); //make image
+    let answerText = makeAnswerText(index); //get true answer
+    let responseText = makeResponseText(index); //get responded answer
+    container.append(answerImg, answerText, responseText); //append all to contained
+    return container;
+}
+
+function makeAnswerImg(index){ //makes image constellation image for container
+    let img = $("<img>");
+    img.attr("src", "assets/images/"+constellationArray[ //assigns constellation name from index
+        myGame.askedQuestionArray[index] //based on the askedQuestion at that question number
+    ]+".jpg")
+    img.attr("class", "resultsImg");
+    return img;
+}
+
+function makeAnswerText(index){ //makes the correct answer text
+    var textSpan = makeText("answer");
+    textSpan.text("Answer: " + constellationArray[ //writes the constellation name from index
+        myGame.askedQuestionArray[index] //based on the askedQuestion at that question number
+    ].toUpperCase()); //in the upper case
+    return textSpan;
+}
+
+function makeResponseText(index){ //makes the responded answer text
+    var textSpan = makeText("response");
+    if(myGame.givenAnswerArray[index] == null){ //if no response was given
+        textSpan.text("You gave no answer");
+    } else {
+        textSpan.text("Your Response: " + constellationArray[ //writes the constellation name from index
+            myGame.givenAnswerArray[index] //based on the givenAnswer at that question number
+        ].toUpperCase()); //in the upper case
+    }
+    if(myGame.askedQuestionArray[index] == myGame.givenAnswerArray[index]){ //if real answer and player answer match
+        textSpan.attr("style", "background-color: green") //give green background to text
+    } else { //if they don't match
+        textSpan.attr("style", "background-color: red") //give red background to text
+    }
+    return textSpan;
+}
+
+function makeText(type){ //base template for text
+    let textSpan = $("<span>"); //make a span
+    textSpan.attr("class", type+" imgText"); //and assign two classes to it, answer/response and imgText
+    return textSpan;
+}
+
+$(function(){ //on document ready
     $(document).on("click", ".answerButton", checkResponse); //Any button with class answerButton calls checkResponse on click
     applyStartScreen();
-    //console.log(myGame);
 })
