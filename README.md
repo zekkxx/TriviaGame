@@ -21,10 +21,15 @@ answersDiv serves as the location for the four different answers. Upon a good cl
 Originally I attempted to utilize a class in order to make a Game object that could hold all of my functions and information. Due to the constraints of data perpetuation and the seeming complexity of making buttons work with the object and make all data fit together nicely, I gave up on this approach and began to utilize myGame as an object instead, and approached the project differently. I have included the file with the code for my attempt in the class model as app-class.js for future reference.
 --For the sake of posterity, I feel it necessary to include that you can use the class method. My issue wasn't in fact data perpetuation, but the fact that I called Math.random and not Math.random(). This has been reflected in app-class.
 
-#Important aspects
-There are two really importan aspects to this project that you'll run across in the project. I'd like to tackle explaining these in terms of difficulty, but these two points in particular are as follows:
-myGame.isReadyToMoveOn
-myGame.askedQuestionIndex.search(" "+myGame.answerIndex+",")
+#Changes
+On 5/21 code was introduced in order to add a content review section at the end of the game, as well as to clean up confusing code chunks.
+Possible additional considerations to be made are different game lengths, and additional testing on the down time between questions.
+
+#Important aspects -- Depreciated
+Code has been added to remove the following aspects from my code. I chose to use indexOf() in an array which did not face the same limitations as it did for a string. In addition, myGame.isReadyToMoveOn proved to be too confusing of a code snippit to understand the intention of, so it was removed and replaced with the method of disabling upon click.
+There are two really important aspects to this project that you'll run across in the project. I'd like to tackle explaining these in terms of difficulty, but these two points in particular are as follows:
+myGame.isReadyToMoveOn  
+myGame.askedQuestionIndex.search(" "+myGame.answerIndex+",")  
 
 myGame.isReadyToMoveOn was originally an aspect that I created to identify and alert the application that the Answer buttons should be clickable, and while I could have settled this with a getElementsByClass("answerButton).disabled = true or another similar approach, I wanted to make sure that it was evident to anyone reading the code what the statement should be reading, and given the asynchronous aspect of the timer needing to disable the buttons as well, I chose to go for the boolean attribute of isReadyToMoveOn... is what I wish I could say. The honest truth is that I simply disliked the way that the buttons looked when I disabled them, and I didn't choose to spend the time on the CSS to improve that aspect.
 If told to come back and refine my code and this project in general, this is definitely one aspect I would like to update.
