@@ -22,6 +22,7 @@ header{
 }
 img{
     max-width: 98%;
+    max-height: 300px;
     margin: 1% auto 1% auto;
     width: auto;
     height: auto;
