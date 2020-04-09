@@ -22,9 +22,8 @@ function getNewQuestion(){
         myGame.answerIndex = Math.floor(Math.random()*constellationArray.length); //get random number
         if(myGame.askedQuestionArray.indexOf(myGame.answerIndex)==-1){ //if random number hasn't been used yet
             newQuestion=true;
-            //console.log("New Question Asked")
         } else {
-            //console.log("Oops, we've already asked this question. Try again.");
+
         }
     }
     myGame.askedQuestionArray.push(myGame.answerIndex); //add new Question index to array
@@ -50,7 +49,7 @@ function decreaseAnswerTime(){ //Decrease time and check for lose conditions
     if(myGame.timeRemaining<=0){ //If time is up
         myGame.timeRemaining = 0;
         resetQuestionInteractivity();
-        $("#timerDiv").html("<h1>Time is Up! Please wait a moment</h1>");
+        $("#timerDiv").html("<h1>Time is Up!</h1>");
         illuminateRightAnswer();
         myGame.givenAnswerArray.push(null); //push a null response for later checks to response array
     }
@@ -103,8 +102,7 @@ function checkResponse(event){ //Check if answer is right or wrong
 function resetQuestionInteractivity(){
     $(".answerButton").attr("disabled", true); //disable answer buttons
     clearInterval(timerInterval);
-    setTimeout(checkGameState, 2000); //Check game conditions after 3 seconds
-        //TAs did not like this method. 5 seconds is too long? Possible mutation point
+    setTimeout(checkGameState, 2000); //Check game conditions after 2 seconds
 }
 
 function checkGameState(){ //Check that the game is continuing or over
