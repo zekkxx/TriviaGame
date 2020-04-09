@@ -1,13 +1,6 @@
 var constellationArray = ["andromeda", "aquarius", "aquila", "aries", "cancer", "canis-major", "capricornus", "carina", "centaurus", "cetus", "corona-borealis", "crater", "crux", "cygnus", "delphinus", "dorado", "draco", "eridanus", "gemini", "hercules", "hydra", "lacerta", "leo", "libra", "lupus", "lynx", "lyra", "orion", "pegasus", "perseus", "phoenix", "pisces", "sagittarius", "scorpius", "serpens-caput", "taurus", "ursa-major", "ursa-minor", "virgo"];
 var timerInterval;
-var myGame = new Object(); /*Has the following fields: {
-    correctAnswers, //The number of correct answers out of 10 questions
-    wrongAnswers, //The number of incorrect answers out of 10 questions
-    askedQuestionArray, //The indexes of asked questions
-    givenAnswersArray, //the indexes of the player's guesses
-    answerIndex, //The index of the current question
-    timeRemaining, //Remaining time for the timer
-}*/
+var myGame = new Object();
 
 function applyStartScreen(){ //Creates start screen
     $("#questionDiv").html("<h1>Are You READY!?</h1>");
@@ -18,7 +11,6 @@ function applyStartScreen(){ //Creates start screen
 
 function startNewGame(){ //Sets game variables to new game stats
     myGame.correctAnswers = 0;
-    myGame.wrongAnswers = 0;
     myGame.askedQuestionArray = []; //Make blank question array
     myGame.givenAnswerArray = []; //Make blank response array
     getNewQuestion();
@@ -61,7 +53,6 @@ function decreaseAnswerTime(){ //Decrease time and check for lose conditions
         $("#timerDiv").html("<h1>Time is Up! Please wait a moment</h1>");
         illuminateRightAnswer();
         myGame.givenAnswerArray.push(null); //push a null response for later checks to response array
-        myGame.wrongAnswers++;
     }
 }
 
@@ -105,7 +96,6 @@ function checkResponse(event){ //Check if answer is right or wrong
         $(event.target).attr("style", "background-color: red");
         illuminateRightAnswer();
         $("#timerDiv").html("<h2>Incorrect...</h2>");
-        myGame.wrongAnswers++;
     }
     myGame.givenAnswerArray.push(event.target.id); //push response into array of responses
 }
@@ -130,8 +120,7 @@ function illuminateRightAnswer(){ //Turns the correct answer gold when an incorr
 }
 
 function finishGame(){ //Creates end game screen
-    $("#questionDiv").html("<h1>You got "+myGame.correctAnswers+" questions correct</h1>"
-        +"<h1>&</h1>"+"<h1>"+myGame.wrongAnswers+" questions wrong!</h1>");
+    $("#questionDiv").html("<h1>You got "+myGame.correctAnswers+" out of 10 questions correct!</h1>");
     $("#timerDiv").html('<button id="startButton">Restart Game!</button>') //Reskin of the start button
     $("#startButton").on("click", startNewGame);
     showAnswerKey();
