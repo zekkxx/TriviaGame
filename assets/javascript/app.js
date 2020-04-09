@@ -21,7 +21,6 @@ function startNewGame(){ //Sets game variables to new game stats
     myGame.wrongAnswers = 0;
     myGame.askedQuestionArray = []; //Make blank question array
     myGame.givenAnswerArray = []; //Make blank response array
-    myGame.gameLength = 10; //Set game length
     getNewQuestion();
 }
 
@@ -55,7 +54,7 @@ function createTimer(){ //Create timer for question
 
 function decreaseAnswerTime(){ //Decrease time and check for lose conditions
     myGame.timeRemaining--;
-    $("#timerDiv").html("<span>"+myGame.timeRemaining+"</span>");
+    $("#timerDiv").html("<span>Time Remaining: "+ Math.floor(myGame.timeRemaining/10) +" Seconds</span>");
     if(myGame.timeRemaining<=0){ //If time is up
         myGame.timeRemaining = 0;
         resetQuestionInteractivity();
@@ -119,7 +118,7 @@ function resetQuestionInteractivity(){
 }
 
 function checkGameState(){ //Check that the game is continuing or over
-    if(myGame.askedQuestionArray.length >= myGame.gameLength){ //If 10 questions have been asked
+    if(myGame.askedQuestionArray.length >= 10){ //If 10 questions have been asked
         finishGame();
     } else {
         getNewQuestion();
@@ -142,7 +141,7 @@ function showAnswerKey(){ //a function which creates a reviewable answer key
     $("#answersDiv").empty();
     let resultsContainer = $("<div>");
     resultsContainer.attr("id", "resultsDiv");
-    for(var i=0; i<myGame.gameLength; i++){ //for the number of questions asked
+    for(var i=0; i<10; i++){ //for the number of questions asked
         let imgContainer = makeImgContainer(i); //make a new result image
         resultsContainer.append(imgContainer); //append result to resultsDiv
     }

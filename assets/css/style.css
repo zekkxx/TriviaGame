@@ -50,7 +50,7 @@ button{
     position: relative;
     text-align: center;
     background-clip: white;
-    margin: 5px;
+    margin: 10px 5px;
 }
 .resultsImg{
     height: 200px;
@@ -66,10 +66,10 @@ button{
 }
 .answer{
     background-color: gold;
-    top: 10%;
+    top: -5%;
 }
 .response{
-    bottom: 10%;
+    bottom: 0;
 }
 #resultsDiv{
     display: flex;
