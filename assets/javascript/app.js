@@ -42,7 +42,7 @@ function getNewQuestion(){
 
 function updatePage(){ //Updates page with new question information
     console.log("Updating Page: "+constellationArray[myGame.answerIndex]); //Turn this off if you don't want to console log answer
-    $("#questionDiv").html("<h1>Name the following constellation:</h1><img src='assets/images/"+constellationArray[myGame.answerIndex]+".jpg'>");
+    $("#questionDiv").html("<h1>Name the constellation:</h1><img src='assets/images/"+constellationArray[myGame.answerIndex]+".jpg'>");
     createTimer();
     createAnswers();
 }
@@ -100,12 +100,12 @@ function checkResponse(event){ //Check if answer is right or wrong
     resetQuestionInteractivity();
     if(event.target.id == myGame.answerIndex){ //If the button clicked has an ID value equal to the current answer's index
         $(event.target).attr("style", "background-color: green");
-        $("#timerDiv").html("<h2>Correct Answer! Please wait a moment</h2>");
+        $("#timerDiv").html("<h2>Correct!</h2>");
         myGame.correctAnswers++;
     } else { //If the button clicked does not have an ID value equal to the current answer's index
         $(event.target).attr("style", "background-color: red");
         illuminateRightAnswer();
-        $("#timerDiv").html("<h2>Wrong Answer! Please wait a moment</h2>");
+        $("#timerDiv").html("<h2>Incorrect...</h2>");
         myGame.wrongAnswers++;
     }
     myGame.givenAnswerArray.push(event.target.id); //push response into array of responses
@@ -114,7 +114,7 @@ function checkResponse(event){ //Check if answer is right or wrong
 function resetQuestionInteractivity(){
     $(".answerButton").attr("disabled", true); //disable answer buttons
     clearInterval(timerInterval);
-    setTimeout(checkGameState, 3000); //Check game conditions after 3 seconds
+    setTimeout(checkGameState, 2000); //Check game conditions after 3 seconds
         //TAs did not like this method. 5 seconds is too long? Possible mutation point
 }
 
@@ -132,7 +132,7 @@ function illuminateRightAnswer(){ //Turns the correct answer gold when an incorr
 
 function finishGame(){ //Creates end game screen
     $("#questionDiv").html("<h1>You got "+myGame.correctAnswers+" questions correct</h1>"
-        +"<h1>&</h1>"+"<h1>You got "+myGame.wrongAnswers+" questions wrong!</h1>");
+        +"<h1>&</h1>"+"<h1>"+myGame.wrongAnswers+" questions wrong!</h1>");
     $("#timerDiv").html('<button id="startButton">Restart Game!</button>') //Reskin of the start button
     $("#startButton").on("click", startNewGame);
     showAnswerKey();
@@ -179,7 +179,7 @@ function makeAnswerText(index){ //makes the correct answer text
 function makeResponseText(index){ //makes the responded answer text
     var textSpan = makeText("response");
     if(myGame.givenAnswerArray[index] == null){ //if no response was given
-        textSpan.text("You gave no answer");
+        textSpan.text("No answer given");
     } else {
         textSpan.text("Your Response: " + constellationArray[ //writes the constellation name from index
             myGame.givenAnswerArray[index] //based on the givenAnswer at that question number
