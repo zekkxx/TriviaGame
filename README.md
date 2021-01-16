@@ -1,16 +1,9 @@
-# TriviaGame
-A trivia game using jQuery and JavaScript timers. UofM Bootcamp assignment #5.
+# Trivia Game
+A trivia game using jQuery and JavaScript timers.
 
-This project utilizes image files from external source: Sea and Sky - Fair Use: Educational/Not for Profit use
+This project originally utilized image files from external source: Sea and Sky - Fair Use: Educational/Not for Profit use
 
-#Advanced Assignment: https://youtu.be/xhmmiRmxQ8Q
-Create a trivia game that shows a question that shows only one question until the player answers it or time runs out (That's what a trivia game is after all)
-Upon success:
-    Screen congratulates them, automatically moves on after a few moments.
-Upon failure:
-    Time runs out: "Time is up" display correct answer, move on
-    Player guess wrong: Tell player they chose wrong, display correct answer, move on
-On the final screen, show the number of correct/incorrect answers and option to restart game (without reloading page)
+This project's deployment has been deprecated. || [Repository](https://www.github.com/zekkxx/trivia-game)
 
 #Design Choices
 Minamalistic design, meaning no header although providing a footer is good for the link back to portfolio.
@@ -22,7 +15,7 @@ Originally I attempted to utilize a class in order to make a Game object that co
 --For the sake of posterity, I feel it necessary to include that you can use the class method. My issue wasn't in fact data perpetuation, but the fact that I called Math.random and not Math.random(). This has been reflected in app-class.
 
 #Changes
-On 5/21 code was introduced in order to add a content review section at the end of the game, as well as to clean up confusing code chunks.
+On 5/21/2019 code was introduced in order to add a content review section at the end of the game, as well as to clean up confusing code chunks.
 Possible additional considerations to be made are different game lengths, and additional testing on the down time between questions.
 
 #Important aspects -- Depreciated
